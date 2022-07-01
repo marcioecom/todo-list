@@ -1,7 +1,33 @@
-import { createContext } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { api } from "../services/api";
 
-interface ITaskContext {}
+export type Task = {
+  id: string;
+  title: string;
+  description?: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
-export const TaskContext = createContext<ITaskContext>({});
+interface ITaskContext {
+  tasks: Task[];
+}
 
-export function TaskProvider() {}
+export const TaskContext = createContext<ITaskContext>({} as ITaskContext);
+
+export function TaskProvider({ children }: { children: ReactNode }) {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  useEffect(() => {
+    api.get("/tasks")
+      .then((res) => setTasks(res.data))
+      .catch(err => console.log(err));
+  }, [])
+
+  return (
+    <TaskContext.Provider value={{ tasks }}>
+      {children}
+    </TaskContext.Provider>
+  )
+}
