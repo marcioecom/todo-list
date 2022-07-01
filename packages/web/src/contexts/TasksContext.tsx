@@ -1,11 +1,12 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { taskStatus } from "../components/Task";
 import { api } from "../services/api";
 
 export type Task = {
   id: string;
   title: string;
   description?: string;
-  status: string;
+  status: keyof typeof taskStatus;
   createdAt: string;
   updatedAt: string;
 }
