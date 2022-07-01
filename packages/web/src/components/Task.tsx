@@ -1,5 +1,5 @@
-import { Badge, Checkbox, Flex, IconButton, Text, VStack } from "@chakra-ui/react";
-import { FiEdit, FiMoreHorizontal } from "react-icons/fi";
+import { Badge, Button, Checkbox, Flex, Menu, MenuButton, MenuItem, MenuList, Text, VStack } from "@chakra-ui/react";
+import { FiEdit, FiMoreHorizontal, FiTrash2 } from "react-icons/fi";
 
 interface ITask {
   title: string;
@@ -34,7 +34,21 @@ export function Task({ title, description, status }: ITask) {
         </Badge>
       </VStack>
 
-      <IconButton aria-label="edit-btn" icon={<FiMoreHorizontal size={20} />} />
+      <Menu>
+        <MenuButton as={Button}>
+          <FiMoreHorizontal size={20} />
+        </MenuButton>
+        <MenuList>
+          <MenuItem>
+            <FiEdit style={{ marginRight: '8px'}} />
+            Editar
+          </MenuItem>
+          <MenuItem>
+            <FiTrash2 style={{ marginRight: '8px'}} />
+            Deletar
+          </MenuItem>
+        </MenuList>
+      </Menu>
     </Flex>
   )
 }
