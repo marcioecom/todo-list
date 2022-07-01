@@ -13,7 +13,7 @@ function App() {
       <Flex justify="space-between" align="center">
         <VStack align="flex-start">
           <Heading>Olá Márcio</Heading>
-          <Text>Você tem 7 tarefas</Text>
+          <Text>Você tem {tasks.length} tarefas</Text>
         </VStack>
 
         <CreateTaskModal isOpen={isOpen} onClose={onClose} />
@@ -23,14 +23,12 @@ function App() {
       </Flex>
 
       <Box mt={8}>
-        { tasks && tasks.map((task) => (
+        { tasks.length >= 1 ? tasks.map((task) => (
           <Task
             key={task.id}
-            title={task.title}
-            description={task.description}
-            status={task.status}
+            task={task}
           />
-        ))}
+        )) : <Text textAlign="center">Nenhuma tarefa encontrada</Text>}
       </Box>
     </Container>
   )

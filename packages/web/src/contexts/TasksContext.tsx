@@ -2,7 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { taskStatus } from "../components/Task";
 import { api } from "../services/api";
 
-export type Task = {
+export type ITask = {
   id: string;
   title: string;
   description?: string;
@@ -17,17 +17,18 @@ type ICreateTask = {
 }
 
 interface ITaskContext {
-  tasks: Task[];
+  tasks: ITask[];
   createTask: (task: ICreateTask) => Promise<void>;
+  deleteTask: (id: string) => Promise<void>;
 }
 
 export const TaskContext = createContext<ITaskContext>({} as ITaskContext);
 
 export function TaskProvider({ children }: { children: ReactNode }) {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<ITask[]>([]);
 
   useEffect(() => {
-    api.get<Task[]>("/tasks")
+    api.get<ITask[]>("/tasks")
       .then((res) => setTasks(res.data))
       .catch(err => console.log(err));
   }, [])
@@ -37,8 +38,13 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     setTasks([...tasks, data])
   }
 
+  async function deleteTask(id: string) {
+    await api.delete(`/tasks/${id}`)
+    setTasks(tasks.filter(task => task.id !== id))
+  }
+
   return (
-    <TaskContext.Provider value={{ tasks, createTask }}>
+    <TaskContext.Provider value={{ tasks, createTask, deleteTask }}>
       {children}
     </TaskContext.Provider>
   )

@@ -1,11 +1,7 @@
 import { Badge, Button, Checkbox, Flex, Menu, MenuButton, MenuItem, MenuList, Text, VStack } from "@chakra-ui/react";
 import { FiEdit, FiMoreHorizontal, FiTrash2 } from "react-icons/fi";
-
-interface ITask {
-  title: string;
-  description?: string;
-  status: keyof typeof taskStatus;
-}
+import { ITask } from "../contexts/TasksContext";
+import { useTask } from "../hooks/useTask";
 
 export const taskStatus = {
   TODO: {
@@ -22,15 +18,17 @@ export const taskStatus = {
   },
 }
 
-export function Task({ title, description, status }: ITask) {
+export function Task({ task }: { task: ITask }) {
+  const { deleteTask } = useTask();
+
   return (
-    <Flex bg="gray.100" rounded="md" px={2} py={1} mb={4}>
+    <Flex bg="gray.100" rounded="md" px={2} py={2} mb={4}>
       <Checkbox />
       <VStack align={"flex-start"} ml={4} flex={1}>
-        <Text fontSize={"lg"}>{title}</Text>
-        { description && <Text color="gray.500">{description}</Text> }
-        <Badge colorScheme={taskStatus[status].color}>
-          { taskStatus[status].text }
+        <Text fontSize={"lg"}>{task.title}</Text>
+        { task.description && <Text color="gray.500">{task.description}</Text> }
+        <Badge colorScheme={taskStatus[task.status].color}>
+          { taskStatus[task.status].text }
         </Badge>
       </VStack>
 
@@ -43,7 +41,10 @@ export function Task({ title, description, status }: ITask) {
             <FiEdit style={{ marginRight: '8px'}} />
             Editar
           </MenuItem>
-          <MenuItem>
+          <MenuItem
+            color="red"
+            onClick={() => deleteTask(task.id)}
+          >
             <FiTrash2 style={{ marginRight: '8px'}} />
             Deletar
           </MenuItem>
