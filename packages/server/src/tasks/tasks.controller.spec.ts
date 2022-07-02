@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TasksModule } from './tasks.module';
 import { TasksService } from './tasks.service';
 
-describe.only('TasksController', () => {
+describe('TasksController', () => {
   const task = {
     id: 'abc',
     title: 'test',
