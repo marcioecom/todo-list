@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from '../database/prisma.service';
 import { TasksService } from './tasks.service';
 
-describe.only('TasksService', () => {
+describe('TasksService', () => {
   let service: TasksService;
 
   beforeEach(async () => {
