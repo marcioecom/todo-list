@@ -1,7 +1,9 @@
-import { Badge, Button, Checkbox, Flex, Menu, MenuButton, MenuItem, MenuList, Text, VStack } from "@chakra-ui/react";
+import { useState } from "react";
+import { Badge, Button as ChakraButton, Checkbox, Flex, HStack, Menu, MenuButton, MenuItem, MenuList, Select, Text, VStack } from "@chakra-ui/react";
 import { FiEdit, FiMoreHorizontal, FiTrash2 } from "react-icons/fi";
 import { ITask } from "../contexts/TasksContext";
 import { useTask } from "../hooks/useTask";
+import { Button } from "./Button";
 
 export const taskStatus = {
   TODO: {
@@ -19,7 +21,9 @@ export const taskStatus = {
 }
 
 export function Task({ task }: { task: ITask }) {
-  const { deleteTask } = useTask();
+  const { deleteTask, updateTask } = useTask();
+  const [isEditing, setIsEditing] = useState(false);
+  const [newStatus, setNewStatus] = useState(task.status);
 
   return (
     <Flex bg="gray.100" rounded="md" px={2} py={2} mb={4}>
@@ -30,14 +34,32 @@ export function Task({ task }: { task: ITask }) {
         <Badge colorScheme={taskStatus[task.status].color}>
           { taskStatus[task.status].text }
         </Badge>
+
+        { isEditing && (
+          <HStack>
+            <Select
+              bg="white"
+              value={newStatus}
+              onChange={
+                (e) => setNewStatus(e.target.value as ITask["status"])
+              }>
+              <option value="TODO">A Fazer</option>
+              <option value="IN_PROGRESS">Em Andamento</option>
+              <option value="DONE">Feito</option>
+            </Select>
+            <Button onClick={() => updateTask(task.id, { ...task, status: newStatus })}>
+              Salvar
+            </Button>
+          </HStack>
+        )}
       </VStack>
 
       <Menu>
-        <MenuButton as={Button}>
+        <MenuButton as={ChakraButton}>
           <FiMoreHorizontal size={20} />
         </MenuButton>
         <MenuList>
-          <MenuItem>
+          <MenuItem onClick={() => setIsEditing(!isEditing)}>
             <FiEdit style={{ marginRight: '8px'}} />
             Editar
           </MenuItem>
