@@ -27,7 +27,7 @@ export function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProps) {
 
   async function handleCreateTask() {
     try {
-      createTask({ title, description });
+      await createTask({ title, description });
 
       toast({
         position: "top-right",
@@ -41,6 +41,7 @@ export function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProps) {
       toast({
         position: "top-right",
         title: 'Erro ao criar tarefa',
+        description: err.response.data.message[0],
         status: 'error',
         duration: 3000,
         isClosable: true
