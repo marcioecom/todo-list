@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {
   FormControl,
   FormLabel,
@@ -9,10 +10,10 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast
-} from "@chakra-ui/react";
-import { useState } from "react";
-import { useTask } from "../hooks/useTask";
-import { Button } from "./Button";
+} from '@chakra-ui/react'
+import { useState } from 'react'
+import { useTask } from '../hooks/useTask'
+import { Button } from './Button'
 
 type CreateTaskModalProps = {
   isOpen: boolean;
@@ -20,26 +21,26 @@ type CreateTaskModalProps = {
 };
 
 export function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProps) {
-  const toast = useToast();
-  const { createTask } = useTask();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const toast = useToast()
+  const { createTask } = useTask()
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
 
   async function handleCreateTask() {
     try {
-      await createTask({ title, description });
+      await createTask({ title, description })
 
       toast({
-        position: "top-right",
+        position: 'top-right',
         title: 'Tarefa criada com sucesso',
         status: 'success',
         duration: 3000,
         isClosable: true
       })
-      onClose();
+      onClose()
     } catch (err: any) {
       toast({
-        position: "top-right",
+        position: 'top-right',
         title: 'Erro ao criar tarefa',
         description: err.response.data.message[0],
         status: 'error',

@@ -1,6 +1,7 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { taskStatus } from "../components/Task";
-import { api } from "../services/api";
+import * as React from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
+import { taskStatus } from '../components/Task'
+import { api } from '../services/api'
 
 export type ITask = {
   id: string;
@@ -27,19 +28,19 @@ interface ITaskContext {
   updateTask: (id: string, task: IUpdateTask) => Promise<void>;
 }
 
-export const TaskContext = createContext<ITaskContext>({} as ITaskContext);
+export const TaskContext = createContext<ITaskContext>({} as ITaskContext)
 
 export function TaskProvider({ children }: { children: ReactNode }) {
-  const [tasks, setTasks] = useState<ITask[]>([]);
+  const [tasks, setTasks] = useState<ITask[]>([])
 
   useEffect(() => {
-    api.get<ITask[]>("/tasks")
+    api.get<ITask[]>('/tasks')
       .then((res) => setTasks(res.data))
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
   }, [])
 
   async function createTask(task: ICreateTask) {
-    const { data } = await api.post("/tasks", task)
+    const { data } = await api.post('/tasks', task)
     setTasks([...tasks, data])
   }
 
