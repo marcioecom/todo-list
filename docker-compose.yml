@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  web:
+    container_name: "todo_front"
+    build: ./packages/web
+    entrypoint: sh -c "yarn && yarn dev"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./packages/web:/home/node/web
+    depends_on:
+      - server
+
+  server:
+    container_name: "todo_api"
+    build: ./packages/server
+    entrypoint: sh -c "yarn && yarn prisma migrate deploy && yarn start:dev"
+    ports:
+      - 3001:3001
+    volumes:
+      - ./packages/server:/home/node/server
+    environment:
+      - DATABASE_URL=${DB_URL}
+    depends_on:
+      - db
+
+  db:
+    container_name: "todo_db"
+    image: 'bitnami/postgresql'
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRESQL_USERNAME=${DB_USER}
+      - POSTGRESQL_PASSWORD=${DB_PASS}
+      - POSTGRESQL_DATABASE=${DB_NAME}
