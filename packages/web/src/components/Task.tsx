@@ -8,7 +8,7 @@ import { Button } from './Button'
 export const taskStatus = {
   TODO: {
     color: 'orange',
-    text: 'a fazer'
+    text: 'pendente'
   },
   IN_PROGRESS: {
     color: 'yellow',
@@ -16,7 +16,7 @@ export const taskStatus = {
   },
   DONE: {
     color: 'green',
-    text: 'feito'
+    text: 'pronto'
   }
 }
 
@@ -43,9 +43,9 @@ export function Task({ task }: { task: ITask }) {
               onChange={
                 (e) => setNewStatus(e.target.value as ITask['status'])
               }>
-              <option value="TODO">A Fazer</option>
+              <option value="TODO">Pendente</option>
               <option value="IN_PROGRESS">Em Andamento</option>
-              <option value="DONE">Feito</option>
+              <option value="DONE">Pronto</option>
             </Select>
             <Button onClick={() => updateTask(task.id, { ...task, status: newStatus })}>
               Salvar
