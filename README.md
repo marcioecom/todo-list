@@ -2,7 +2,7 @@
 
 Um sistema desenvolvido para empresa **Ebytr** capaz de auxiliar as pessoas colaboradoras a se organizar e ter mais produtividade.
 
-Link do projeto: https://todo-list-alpha-wheat.vercel.app/
+Link do projeto: https://todo-list-marciojr.vercel.app
 
 ## Skills
 
