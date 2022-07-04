@@ -9,6 +9,8 @@ services:
       - 3000:3000
     volumes:
       - ./packages/web:/home/node/web
+    environment:
+      - VITE_API_URL=${API_URL}
     depends_on:
       - server
 
